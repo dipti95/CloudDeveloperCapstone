@@ -6,3 +6,9 @@ export interface UpdateTodoRequest {
   dueDate: string
   done: boolean
 }
+
+export interface ProductUpdateRequest {
+  name: string
+  bestBefore: string
+  sold: boolean
+}

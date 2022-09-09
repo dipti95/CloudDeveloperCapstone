@@ -6,17 +6,13 @@
     "name": {
       "type": "string"
     },
-    "dueDate": {
+    "bestBefore": {
       "type": "string"
     },
-    "done": {
+    "sold": {
       "type": "boolean"
     }
   },
-  "required": [
-    "name",
-    "dueDate",
-    "done"
-  ],
+  "required": ["name", "bestBefore", "sold"],
   "additionalProperties": false
 }

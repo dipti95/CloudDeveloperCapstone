@@ -1,7 +1,6 @@
-# TODO: Change the name of the org 
-org: sudkul
-app: serverless-todo-app
-service: serverless-todo-app
+# TODO: Change the name of the org
+app: serverless-product-app
+service: serverless-product-app
 
 plugins:
   - serverless-webpack
@@ -20,12 +19,12 @@ provider:
     lambda: true
     apiGateway: true
 
-  # Use these variables in the functions and resouorces section below. For example, 
+  # Use these variables in the functions and resouorces section below. For example,
   # ${self:provider.environment.ATTACHMENT_S3_BUCKET}
   environment:
-    TODOS_TABLE: Todos-${self:provider.stage}
-    TODOS_CREATED_AT_INDEX: CreatedAtIndex
-    ATTACHMENT_S3_BUCKET: serverless-c4-todo-images-${self:provider.stage}
+    PRODUCTS_TABLE: Products-${self:provider.stage}
+    PRODUCTS_CREATED_AT_INDEX: CreatedAtIndex
+    ATTACHMENT_S3_BUCKET: serverless-Product-images-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
 
   logs:
@@ -39,35 +38,33 @@ provider:
           Action:
             - xray:PutTelemetryRecords
             - xray:PutTraceSegments
-          Resource: "*"
-
+          Resource: '*'
 
 functions:
-
   Auth:
     handler: src/lambda/auth/auth0Authorizer.handler
 
-  # TODO: Configure this function - 
+  # TODO: Configure this function -
   # Provide iamRoleStatements property for performing Actions on DynamoDB
-  GetTodos:
-    handler: src/lambda/http/getTodos.handler
+  GetProducts:
+    handler: src/lambda/http/getProducts.handler
     events:
       - http:
           method: get
-          path: todos
+          path: products
           cors: true
           authorizer: Auth
 
-  # TODO: Configure this function - 
-  # Provide iamRoleStatements property. Decide the Actions and AWS Resource. 
+  # TODO: Configure this function -
+  # Provide iamRoleStatements property. Decide the Actions and AWS Resource.
   # To refer to an AWS resource defined in the "Resources" section, you can use "Resource: !GetAtt <resource-name>.Arn"
-  # To validate incoming HTTP requests, we have provided the request schemas in function definition below. 
-  CreateTodo:
-    handler: src/lambda/http/createTodo.handler
+  # To validate incoming HTTP requests, we have provided the request schemas in function definition below.
+  CreateProduct:
+    handler: src/lambda/http/createProduct.handler
     events:
       - http:
           method: post
-          path: todos
+          path: products
           cors: true
           authorizer: Auth
           request:
@@ -76,21 +73,21 @@ functions:
 
   # TODO: Configure this function
   # Provide property for setting up CORS, Authorizer, iamRoleStatements, and request schemas
-  UpdateTodo:
-    handler: src/lambda/http/updateTodo.handler
+  UpdateProduct:
+    handler: src/lambda/http/updateProduct.handler
     events:
       - http:
           method: patch
-          path: todos/{todoId}
+          path: products/{productId}
 
   # TODO: Configure this function
   # Provide property for setting up CORS, Authorizer, iamRoleStatements
-  DeleteTodo:
-    handler: src/lambda/http/deleteTodo.handler
+  DeleteProduct:
+    handler: src/lambda/http/deleteProduct.handler
     events:
       - http:
           method: delete
-          path: todos/{todoId}
+          path: products/{productId}
 
   # TODO: Configure this function
   # Provide property for setting up CORS, Authorizer, iamRoleStatements
@@ -99,23 +96,23 @@ functions:
     events:
       - http:
           method: post
-          path: todos/{todoId}/attachment
+          path: products/{productId}/attachment
 
 resources:
   Resources:
     # Add necessary AWS resources. You will need at least the following AWS resources
     # TODO: Fill the properties
-    # Feel free to change the names as you like. 
+    # Feel free to change the names as you like.
     GatewayResponseDefault4XX:
       Type: AWS::ApiGateway::GatewayResponse
       Properties:
-    
+
     # TODO: Create a DynamoDB table with local secondary index and a composite key
     TodosTable:
       Type: AWS::DynamoDB::Table
       Properties:
 
-    # TODO: Complete the bucket properties below. 
+    # TODO: Complete the bucket properties below.
     # Do not forget to add the CorsConfiguration propoerty
     AttachmentsBucket:
       Type: AWS::S3::Bucket
