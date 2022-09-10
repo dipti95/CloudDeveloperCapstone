@@ -6,6 +6,9 @@
     "name": {
       "type": "string"
     },
+    "category": {
+      "type": "string"
+    },
     "bestBefore": {
       "type": "string"
     },
@@ -13,6 +16,6 @@
       "type": "boolean"
     }
   },
-  "required": ["name", "bestBefore", "sold"],
+  "required": ["name", "category", "bestBefore", "sold"],
   "additionalProperties": false
 }

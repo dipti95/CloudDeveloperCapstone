@@ -6,6 +6,7 @@
 
 export interface ProductUpdate {
   name: string
+  category: string
   bestBefore: string
   sold: boolean
 }

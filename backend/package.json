@@ -1,7 +1,7 @@
 {
-  "name": "serverless-todo-app",
+  "name": "serverless-product-app",
   "version": "1.0.0",
-  "description": "Serverless TODO image app",
+  "description": "Serverless Product image app",
   "dependencies": {
     "@types/axios": "^0.14.0",
     "@types/http-errors": "^1.6.1",
@@ -26,9 +26,9 @@
     "serverless-reqvalidator-plugin": "^1.0.3",
     "serverless-webpack": "^5.2.0",
     "ts-loader": "^5.3.3",
-    "typescript": ">=3.8.0",
+    "typescript": "^3.4.1",
     "webpack": "^4.29.6"
   },
-  "author": "Ivan Mushketyk",
+  "author": "Dipti Yadav",
   "license": "MIT"
 }
