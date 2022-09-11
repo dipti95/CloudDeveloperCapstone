@@ -4,10 +4,12 @@
   "type": "object",
   "properties": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "minLength": 4
     },
     "category": {
-      "type": "string"
+      "type": "string",
+      "minLength": 4
     },
     "bestBefore": {
       "type": "string"
