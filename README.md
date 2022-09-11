@@ -1,23 +1,20 @@
-# Serverless TODO
+# Serverless APP
 
-To implement this project, you need to implement a simple TODO application using AWS Lambda and Serverless framework. Search for all comments starting with the `TODO:` in the code to find the placeholders that you need to implement.
+This application will allow creating/removing/updating/fetching PRODUCT items. Each PRODUCT item can optionally have an attachment image. Each user only has access to PRODUCT items that he/she has created.
 
-# Functionality of the application
+# PRODUCT items
 
-This application will allow creating/removing/updating/fetching TODO items. Each TODO item can optionally have an attachment image. Each user only has access to TODO items that he/she has created.
-
-# TODO items
-
-The application should store TODO items, and each TODO item contains the following fields:
+The application should store PRODUCT items, and each PRODUCT item contains the following fields:
 
 - `todoId` (string) - a unique id for an item
 - `createdAt` (string) - date and time when an item was created
-- `name` (string) - name of a TODO item (e.g. "Change a light bulb")
-- `dueDate` (string) - date and time by which an item should be completed
-- `done` (boolean) - true if an item was completed, false otherwise
-- `attachmentUrl` (string) (optional) - a URL pointing to an image attached to a TODO item
+- `name` (string) - name of a PRODUCT item (e.g. "Change a light bulb")
+- `category` (string) - name of a PRODUCT item (e.g. "Change a light bulb")
+- `bestBefore` (string) - date and time by which an item should be use
+- `sold` (boolean) - true if an item was sold, false otherwise
+- `attachmentUrl` (string) (optional) - a URL pointing to an image attached to a PRODUCT item
 
-You might also store an id of a user who created a TODO item.
+You might also store an id of a user who created a PRODUCT item.
 
 ## Prerequisites
 
@@ -46,71 +43,48 @@ To implement this project, you need to implement the following functions and con
 
 - `Auth` - this function should implement a custom authorizer for API Gateway that should be added to all other functions.
 
-- `GetTodos` - should return all TODOs for a current user. A user id can be extracted from a JWT token that is sent by the frontend
+- `GetProducts` - should return all Products for a current user. A user id can be extracted from a JWT token that is sent by the frontend
 
-It should return data that looks like this:
+- `CreateProduct` - should create a new PRODUCT for a current user. A shape of data send by a client application to this function can be found in the `CreateProductRequest.ts` file
 
-```json
-{
-  "items": [
-    {
-      "todoId": "123",
-      "createdAt": "2019-07-27T20:01:45.424Z",
-      "name": "Buy milk",
-      "dueDate": "2019-07-29T20:01:45.424Z",
-      "done": false,
-      "attachmentUrl": "http://example.com/image.png"
-    },
-    {
-      "todoId": "456",
-      "createdAt": "2019-07-27T20:01:45.424Z",
-      "name": "Send a letter",
-      "dueDate": "2019-07-29T20:01:45.424Z",
-      "done": true,
-      "attachmentUrl": "http://example.com/image.png"
-    }
-  ]
-}
-```
-
-- `CreateTodo` - should create a new TODO for a current user. A shape of data send by a client application to this function can be found in the `CreateTodoRequest.ts` file
-
-It receives a new TODO item to be created in JSON format that looks like this:
+It receives a new PRODUCT item to be created in JSON format that looks like this:
 
 ```json
 {
-  "createdAt": "2019-07-27T20:01:45.424Z",
-  "name": "Buy milk",
-  "dueDate": "2019-07-29T20:01:45.424Z",
-  "done": false,
+  "createdAt": "2022-09-27T20:01:45.424Z",
+  "name": "CheeseCake",
+  "category": "Sweets",
+  "bestBefore": "2022-09-29T20:01:45.424Z",
+  "Sold": false,
   "attachmentUrl": "http://example.com/image.png"
 }
 ```
 
-It should return a new TODO item that looks like this:
+It should return a new PRODUCT item that looks like this:
 
 ```json
 {
   "item": {
-    "todoId": "123",
-    "createdAt": "2019-07-27T20:01:45.424Z",
-    "name": "Buy milk",
-    "dueDate": "2019-07-29T20:01:45.424Z",
-    "done": false,
+    "productId": "123",
+    "createdAt": "2022-09-27T20:01:45.424Z",
+    "name": "CheeseCake",
+    "category": "Sweets",
+    "bestBefore": "2022-09-29T20:01:45.424Z",
+    "Sold": false,
     "attachmentUrl": "http://example.com/image.png"
   }
 }
 ```
 
-- `UpdateTodo` - should update a TODO item created by a current user. A shape of data send by a client application to this function can be found in the `UpdateTodoRequest.ts` file
+- `UpdateProduct` - should update a PRODUCT item created by a current user. A shape of data send by a client application to this function can be found in the `UpdateProductRequest.ts` file
 
-It receives an object that contains three fields that can be updated in a TODO item:
+It receives an object that contains three fields that can be updated in a PRODUCT item:
 
 ```json
 {
-  "name": "Buy bread",
-  "dueDate": "2019-07-29T20:01:45.424Z",
-  "done": true
+  "name": "CheeseCake",
+  "category": "Sweets",
+  "Sold": true
 }
 ```
 
@@ -118,11 +92,11 @@ The id of an item that should be updated is passed as a URL parameter.
 
 It should return an empty body.
 
-- `DeleteTodo` - should delete a TODO item created by a current user. Expects an id of a TODO item to remove.
+- `DeleteProduct` - should delete a PRODUCT item created by a current user. Expects an id of a PRODUCT item to remove.
 
 It should return an empty body.
 
-- `GenerateUploadUrl` - returns a pre-signed URL that can be used to upload an attachment file for a TODO item.
+- `GenerateUploadUrl` - returns a pre-signed URL that can be used to upload an attachment file for a PRODUCT item.
 
 It should return a JSON object that looks like this:
 
@@ -182,58 +156,6 @@ logger.info('User was authorized', {
 # Grading the submission
 
 Once you have finished developing your application, please set `apiId` and Auth0 parameters in the `config.ts` file in the `client` folder. A reviewer would start the React development server to run the frontend that should be configured to interact with your serverless application.
-
-**IMPORTANT**
-
-_Please leave your application running until a submission is reviewed. If implemented correctly it will cost almost nothing when your application is idle._
-
-# Suggestions
-
-To store TODO items, you might want to use a DynamoDB table with local secondary index(es). A create a local secondary index you need to create a DynamoDB resource like this:
-
-```yml
-TodosTable:
-  Type: AWS::DynamoDB::Table
-  Properties:
-    AttributeDefinitions:
-      - AttributeName: partitionKey
-        AttributeType: S
-      - AttributeName: sortKey
-        AttributeType: S
-      - AttributeName: indexKey
-        AttributeType: S
-    KeySchema:
-      - AttributeName: partitionKey
-        KeyType: HASH
-      - AttributeName: sortKey
-        KeyType: RANGE
-    BillingMode: PAY_PER_REQUEST
-    TableName: ${self:provider.environment.TODOS_TABLE}
-    LocalSecondaryIndexes:
-      - IndexName: ${self:provider.environment.INDEX_NAME}
-        KeySchema:
-          - AttributeName: partitionKey
-            KeyType: HASH
-          - AttributeName: indexKey
-            KeyType: RANGE
-        Projection:
-          ProjectionType: ALL # What attributes will be copied to an index
-```
-
-To query an index you need to use the `query()` method like:
-
-```ts
-await this.dynamoDBClient
-  .query({
-    TableName: 'table-name',
-    IndexName: 'index-name',
-    KeyConditionExpression: 'paritionKey = :paritionKey',
-    ExpressionAttributeValues: {
-      ':paritionKey': partitionKeyValue
-    }
-  })
-  .promise()
-```
 
 # How to run the application
 
