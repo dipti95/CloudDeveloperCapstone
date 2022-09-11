@@ -6,7 +6,7 @@ This application will allow creating/removing/updating/fetching PRODUCT items. E
 
 The application should store PRODUCT items, and each PRODUCT item contains the following fields:
 
-- `todoId` (string) - a unique id for an item
+- `productId` (string) - a unique id for an item
 - `createdAt` (string) - date and time when an item was created
 - `name` (string) - name of a PRODUCT item (e.g. "Change a light bulb")
 - `category` (string) - name of a PRODUCT item (e.g. "Change a light bulb")
